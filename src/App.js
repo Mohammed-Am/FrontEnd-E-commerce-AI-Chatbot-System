@@ -27,14 +27,19 @@ function App() {
     try {
       const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://127.0.0.1:5000'; // Fallback for local development
 
-    // ... inside handleSend function
-    const response = await fetch(`${BACKEND_URL}/chat`, {
+      const response = await fetch(`${BACKEND_URL}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ message: input }),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error from backend:', response.status, response.statusText, errorText);
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
 
       const data = await response.json();
       
@@ -48,7 +53,11 @@ function App() {
 
     } catch (error) {
       console.error('Error fetching chat response:', error);
-      const errorMessage = { text: 'Sorry, something went wrong. Please try again.', sender: 'bot', products: [] };
+      let displayMessage = 'Sorry, something went wrong. Please try again.';
+      if (error.message.includes('Failed to fetch')) {
+        displayMessage = 'Could not connect to the server. Please ensure the backend is running and accessible.';
+      }
+      const errorMessage = { text: displayMessage, sender: 'bot', products: [] };
       setMessages(prevMessages => [...prevMessages, errorMessage]);
     } finally {
       setIsLoading(false); // End loading
