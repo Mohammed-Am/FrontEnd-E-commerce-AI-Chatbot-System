@@ -65,8 +65,12 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-2">
-      <div className="w-full max-w-3xl bg-white rounded-lg shadow-xl flex flex-col h-[80vh]">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
+      <header className="w-full max-w-3xl bg-white rounded-t-lg shadow-xl flex items-center justify-center p-4 border-b">
+        <img src="https://i.pinimg.com/736x/e4/09/6f/e4096f0afce5bbb76ef00df733a2e951.jpg" alt="Bike Store Logo" className="h-10 w-10 mr-3"/>
+        <h1 className="text-2xl font-bold text-gray-800">Bike Shop Assistant</h1>
+      </header>
+      <div className="w-full max-w-3xl bg-white rounded-b-lg shadow-xl flex flex-col h-[80vh]">
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {messages.map((msg, index) => (
             <div 
